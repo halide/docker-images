@@ -31,4 +31,4 @@ jobs:
           push: true
           tags: halide/${{ matrix.image }}:${{ matrix.version }}
           build-args:
-            LLVM_TAG: v${{ matrix.version }}
+            - LLVM_TAG=v${{ matrix.version }}
