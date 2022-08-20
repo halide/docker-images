@@ -15,6 +15,7 @@ jobs:
       contents: read
       packages: write
     strategy:
+      fail-fast: false
       matrix:
         image: [ manylinux2014_x86_64-llvm ]
         version: [ 13.0.1, 14.0.6 ]
@@ -33,5 +34,5 @@ jobs:
         with:
           context: ./${{ matrix.image }}
           push: true
-          tags: halide/${{ matrix.image }}:${{ matrix.version }}
+          tags: halide/${{ matrix.image }}-${{ matrix.version }}:latest
           build-args: LLVM_TAG=llvmorg-${{ matrix.version }}
