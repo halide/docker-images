@@ -18,6 +18,8 @@ jobs:
       matrix:
         image: [ manylinux2014_x86_64-llvm ]
         version: [ 13.0.1, 14.0.6, 15.0.0-rc2 ]
+    env:
+      LLVM_TAG: v${{ matrix.version }}
     steps:
       - uses: actions/checkout@v3
 
@@ -33,7 +35,7 @@ jobs:
           echo ${{ matrix.image }}
           echo ${{ matrix.version }}
           echo ${{ env.LLVM_TAG }}
-
+          echo $LLVM_TAG
 
 #      - name: Build and push Docker image
 #        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
