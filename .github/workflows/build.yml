@@ -1,0 +1,43 @@
+name: Create and publish a Docker image
+
+on:
+  push:
+    branches: ['main']
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: halide/manylinux2014_x86_64-llvm
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        image: [ manylinux2014_x86_64-llvm ]
+        version: [ 13.0.1, 14.0.6, 15.0.0-rc2 ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print config
+        run: |
+          echo ${{ matrix.image }}
+          echo ${{ matrix.version }}
+          echo ${{ env.LLVM_TAG }}
+
+
+#      - name: Build and push Docker image
+#        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+#        with:
+#          context: "{{defaultContext}}:manylinux2014_x86_64-llvm"
+#          push: true
+
