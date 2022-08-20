@@ -30,5 +30,4 @@ jobs:
           context: ./manylinux2014_x86_64-llvm
           push: true
           tags: halide/${{ matrix.image }}:${{ matrix.version }}
-          build-args:
-            - LLVM_TAG=v${{ matrix.version }}
+          build-args: LLVM_TAG=v${{ matrix.version }}
