@@ -3,6 +3,9 @@ name: Create CI images
 on:
   push:
     branches: [ 'main' ]
+    paths:
+      - '*.yml'
+      - 'Dockerfile'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
