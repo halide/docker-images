@@ -2,7 +2,7 @@ name: Create CI images
 
 on:
   push:
-    branches: ['main']
+    branches: [ 'main' ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
@@ -20,8 +20,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image: [ manylinux2014_x86_64-llvm ]
-        version: [ 13.0.1, 14.0.6 ]
+        arch: [ x86_64, i686, aarch64 ]
+        version: [
+          #13.0.1,
+          #14.0.6,
+          15.0.1,
+        ]
     steps:
       - uses: actions/checkout@v3
 
@@ -32,10 +36,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: "386,arm64"
+
       - name: Build and push image
         uses: docker/build-push-action@v3.1.1
         with:
-          context: ./${{ matrix.image }}
+          context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.image }}:${{ matrix.version }}
-          build-args: LLVM_TAG=llvmorg-${{ matrix.version }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux2014_${{ matrix.arch }}-llvm:${{ matrix.version }}
+          build-args: |
+            LLVM_TAG=llvmorg-${{ matrix.version }}
+            ARCH=${{ matrix.arch }}
