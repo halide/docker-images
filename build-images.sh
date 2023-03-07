@@ -2,7 +2,9 @@
 
 set -e
 
-LLVM_TAG=${1:-15.0.1}
+[[ "$1" != "" ]] && echo "You must specify the LLVM version as an argument, e.g. 15.0.7" && exit
+
+LLVM_TAG=$1
 
 build_image() {
   ARCH="$1"
