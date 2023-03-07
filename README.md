@@ -19,9 +19,9 @@ already, the following:
      the first argument. The `reset-docker.sh` script will delete
      **everything** from your local Docker instance, so be warned. But it can
      come in handy when disk space is an issue.
-  5. Push the images via `docker push ghcr.io/halide/manylinux2014_aarch64-llvm:15.0.1`,
-     `docker push ghcr.io/halide/manylinux2014_i686-llvm:15.0.1`, and
-     `docker push ghcr.io/halide/manylinux2014_x86_64-llvm:15.0.1`.
+  5. Push the images via `docker push ghcr.io/halide/manylinux2014_aarch64-llvm:15.0.7`,
+     `docker push ghcr.io/halide/manylinux2014_i686-llvm:15.0.7`, and
+     `docker push ghcr.io/halide/manylinux2014_x86_64-llvm:15.0.7`.
 
 See the docs for more details: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry
 
