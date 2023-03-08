@@ -24,3 +24,8 @@ build_image() {
 build_image x86_64
 build_image i686
 build_image aarch64
+
+echo "Complete! Now push the images with:"
+echo "  docker push --all-tags ghcr.io/halide/manylinux2014_aarch64-llvm:$LLVM_MAJOR.$LLVM_MINOR.$LLVM_PATCH"
+echo "  docker push --all-tags ghcr.io/halide/manylinux2014_i686-llvm:$LLVM_MAJOR.$LLVM_MINOR.$LLVM_PATCH"
+echo "  docker push --all-tags ghcr.io/halide/manylinux2014_x86_64-llvm:$LLVM_MAJOR.$LLVM_MINOR.$LLVM_PATCH"
