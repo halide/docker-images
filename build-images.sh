@@ -2,13 +2,23 @@
 
 set -e
 
-[[ "$1" != "" ]] && echo "You must specify the LLVM version as an argument, e.g. 15.0.7" && exit
+if [ "$#" -ne 3 ]; then
+  echo "You must specify the LLVM version as three arguments of the form MAJOR MINOR PATCH, e.g. ${0} 15 0 7"
+  exit
+fi
 
-LLVM_TAG=$1
+LLVM_MAJOR=$1
+LLVM_MINOR=$2
+LLVM_PATCH=$3
 
 build_image() {
   ARCH="$1"
-  docker build -t "ghcr.io/halide/manylinux2014_$ARCH-llvm:$LLVM_TAG" --build-arg "LLVM_TAG=llvmorg-$LLVM_TAG" --build-arg "ARCH=$ARCH" .
+  docker build \
+    -t "ghcr.io/halide/manylinux2014_$ARCH-llvm:$LLVM_MAJOR.$LLVM_MINOR.$LLVM_PATCH" \
+    -t "ghcr.io/halide/manylinux2014_$ARCH-llvm:$LLVM_MAJOR.x" \
+    --build-arg "LLVM_TAG=llvmorg-$LLVM_TAG" \
+    --build-arg "ARCH=$ARCH" \
+    .
 }
 
 build_image x86_64

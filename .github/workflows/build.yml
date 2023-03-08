@@ -44,12 +44,20 @@ jobs:
         with:
           platforms: "386,arm64"
 
+      - name: Parse Semver
+        uses: booxmedialtd/ws-action-parse-semver@v1.4.7
+        id: semver_parser
+        with:
+           input_string: ${{ matrix.version }}
+
       - name: Build and push image
-        uses: docker/build-push-action@v3.1.1
+        uses: docker/build-push-action@v4.0.0
+        env:
+          version_key: ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux2014_${{ matrix.arch }}-llvm
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux2014_${{ matrix.arch }}-llvm:${{ matrix.version }}
+          tags: ${{ env.version_key }}:${{ steps.semver_parser.outputs.fullversion }},${{ env.version_key }}:${{ steps.semver_parser.outputs.major }}.x
           build-args: |
             LLVM_TAG=llvmorg-${{ matrix.version }}
             ARCH=${{ matrix.arch }}
