@@ -10,7 +10,7 @@ RUN git clone --depth 1 --branch v1.11.1 https://github.com/ninja-build/ninja.gi
     rm -rf ninja build
 
 ## Install ZLIB
-ARG ZLIB_TAG=v1.2.12
+ARG ZLIB_TAG=v1.3
 RUN git clone --depth 1 --branch "$ZLIB_TAG" https://github.com/madler/zlib.git && \
     cmake -G Ninja -S zlib -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_POSITION_INDEPENDENT_CODE=ON && \
     cmake --build build --target install && \
@@ -18,7 +18,7 @@ RUN git clone --depth 1 --branch "$ZLIB_TAG" https://github.com/madler/zlib.git 
     rm -f /usr/local/lib/libz.so*
 
 ## Install LLVM
-ARG LLVM_TAG=llvmorg-15.0.1
+ARG LLVM_TAG=llvmorg-17.0.6
 RUN git clone --depth 1 --branch "$LLVM_TAG" https://github.com/llvm/llvm-project.git
 RUN cmake -G Ninja -S llvm-project/llvm -B build -DCMAKE_BUILD_TYPE=Release \
       -DLLVM_ENABLE_PROJECTS="clang;lld" \
