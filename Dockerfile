@@ -1,5 +1,4 @@
 ARG ARCH=x86_64
-
 FROM quay.io/pypa/manylinux2014_$ARCH
 
 WORKDIR /ws
