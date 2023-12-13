@@ -12,5 +12,4 @@ build_image() {
 }
 
 build_image x86_64
-# build_image i686
 build_image aarch64
