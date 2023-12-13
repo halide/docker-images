@@ -4,7 +4,7 @@ This repository contains a number of Dockerfiles that are used by Halide's
 continuous integration system to speed up packaging (and maybe someday testing)
 workflows.
 
-At the moment, the six-hour time limit on GitHub Actions makes the i686 and
+At the moment, the six-hour time limit on GitHub Actions makes the
 aarch64 copies of `manylinux2014-*-llvm` unable to be built and deployed
 automatically. Instead, until a cross-compiling solution can be devised, these
 images will have to be constructed and pushed locally.

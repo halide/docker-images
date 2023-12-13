@@ -1,10 +1,12 @@
 ARG ARCH=x86_64
+
 FROM quay.io/pypa/manylinux2014_$ARCH
 
 WORKDIR /ws
 
 ## Install Ninja
-RUN git clone --depth 1 --branch v1.11.1 https://github.com/ninja-build/ninja.git &&\
+RUN \
+    git clone --depth 1 --branch v1.11.1 https://github.com/ninja-build/ninja.git && \
     cmake -S ninja -B build -DCMAKE_BUILD_TYPE=Release && \
     cmake --build build --target install -j "$(nproc)" && \
     rm -rf ninja build
