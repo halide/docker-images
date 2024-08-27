@@ -15,5 +15,5 @@ build_image() {
     .
 }
 
-build_image aarch64
+#build_image aarch64
 build_image x86_64
