@@ -27,7 +27,7 @@ jobs:
           x86_64,
           aarch64,
         ]
-        version: [
+        version-major: [
           17,
           18,
         ]
