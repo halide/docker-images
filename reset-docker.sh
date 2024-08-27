@@ -17,7 +17,7 @@ fi
 ##
 # Remove all images
 
-docker image prune
+docker image prune -f
 
 read -ra images < <(docker images -qa) || true
 if ((${#images[@]} != 0)); then
@@ -37,3 +37,7 @@ if ((${#volumes[@]} != 0)); then
 else
   echo "No volumes to remove"
 fi
+
+##
+# Remove everything else
+docker system prune -af --volumes
