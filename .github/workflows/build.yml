@@ -50,5 +50,5 @@ jobs:
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version.full }}
             ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version.major }}
           build-args: |
-            LLVM_TAG=llvmorg-${{ matrix.version }}
+            LLVM_TAG=llvmorg-${{ matrix.version.full }}
             ARCH=${{ matrix.arch }}
