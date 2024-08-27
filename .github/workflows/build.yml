@@ -28,9 +28,14 @@ jobs:
           aarch64,
         ]
         version: [
-          17.0.6,
-          18.1.8,
+          17,
+          18,
         ]
+        include:
+          - version-major: 17
+            version: 17.0.6
+          - version-major: 18
+            version: 18.1.8
     steps:
       - uses: actions/checkout@v4
 
@@ -51,7 +56,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux2014_${{ matrix.arch }}-llvm:${{ matrix.version }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version }}
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version-major }}
           build-args: |
             LLVM_TAG=llvmorg-${{ matrix.version }}
             ARCH=${{ matrix.arch }}

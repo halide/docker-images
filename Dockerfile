@@ -1,10 +1,12 @@
 ARG ARCH=x86_64
-FROM quay.io/pypa/manylinux2014_$ARCH
+FROM messense/manylinux_2_28-cross:$ARCH 
+
+LABEL org.opencontainers.image.source=https://github.com/halide/docker-images
 
 WORKDIR /ws
 
 ## Install wget
-RUN yum -y install wget
+#RUN yum -y install wget
 
 ## Install Ninja
 RUN git clone --depth 1 --branch v1.12.1 https://github.com/ninja-build/ninja.git && \
@@ -26,7 +28,8 @@ RUN wget -q https://github.com/google/flatbuffers/archive/refs/tags/v${FB_VERSIO
 
 ## Install flatbuffers
 ARG WABT_VERSION=1.0.36
-RUN git clone --recursive --depth 1 --branch ${WABT_VERSION} https://github.com/WebAssembly/wabt.git && \
+RUN git clone --depth 1 --branch ${WABT_VERSION} https://github.com/WebAssembly/wabt.git && \
+    git -C wabt submodule update --init third_party/picosha2 && \
     cmake -G Ninja -S wabt -B build \
       -DCMAKE_BUILD_TYPE=Release \
       -DWITH_EXCEPTIONS=ON \
