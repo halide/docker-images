@@ -23,19 +23,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [
-          x86_64,
-          aarch64,
-        ]
-        version-major: [
-          17,
-          18,
-        ]
-        include:
-          - version-major: 17
-            version: 17.0.6
-          - version-major: 18
-            version: 18.1.8
+        arch:
+          - x86_64
+          - aarch64
+        version:
+          - major: 17
+            full: 17.0.6
+          - major: 18
+            full: 18.1.8
     steps:
       - uses: actions/checkout@v4
 
@@ -52,8 +47,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version }}
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version-major }}
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version.full }}
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/manylinux_2_28_${{ matrix.arch }}-llvm:${{ matrix.version.major }}
           build-args: |
             LLVM_TAG=llvmorg-${{ matrix.version }}
             ARCH=${{ matrix.arch }}
