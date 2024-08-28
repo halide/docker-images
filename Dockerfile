@@ -74,3 +74,7 @@ RUN git clone --depth 1 --branch ${LLVM_TAG} https://github.com/llvm/llvm-projec
       && \
     cmake --build build --target install && \
     rm -rf llvm-project build
+
+# Configure qemu
+ENV QEMU_LD_PREFIX=$TARGET_SYSROOT
+
