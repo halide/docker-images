@@ -5,20 +5,21 @@ LABEL org.opencontainers.image.source=https://github.com/halide/docker-images
 
 WORKDIR /ws
 
-## Install Ninja
-ARG NINJA_VERSION=v1.12.1
-RUN git clone --depth 1 --branch ${NINJA_VERSION} https://github.com/ninja-build/ninja.git && \
-    cmake -S ninja -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF && \
-    cmake --build build --target install -j "$(nproc)" && \
-    rm -rf ninja build
+## Install Ninja & CMake
+RUN apt-get remove -y cmake && \
+    apt-get -y autoremove && \
+    python -m pip install ninja==1.11.1.1 cmake==3.28.4
+
+## Set the prefix path to an arch-specific folder
+ENV CMAKE_PREFIX_PATH=/usr/local/$CARGO_BUILD_TARGET
 
 ## Install flatbuffers
 ARG FB_VERSION=v23.5.26
 RUN git clone --depth 1 --branch ${FB_VERSION} https://github.com/google/flatbuffers.git && \
     cmake -G Ninja -S flatbuffers -B build \
       -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_C_COMPILER=$TARGET_CC \
-      -DCMAKE_CXX_COMPILER=$TARGET_CXX \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/$CARGO_BUILD_TARGET \
+      -DCMAKE_TOOLCHAIN_FILE=$TARGET_CMAKE_TOOLCHAIN_FILE_PATH \
       -DFLATBUFFERS_BUILD_TESTS=OFF \
       && \
     cmake --build build --target install && \
@@ -30,8 +31,8 @@ RUN git clone --depth 1 --branch ${WABT_VERSION} https://github.com/WebAssembly/
     git -C wabt submodule update --init third_party/picosha2 && \
     cmake -G Ninja -S wabt -B build \
       -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_C_COMPILER=$TARGET_CC \
-      -DCMAKE_CXX_COMPILER=$TARGET_CXX \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/$CARGO_BUILD_TARGET \
+      -DCMAKE_TOOLCHAIN_FILE=$TARGET_CMAKE_TOOLCHAIN_FILE_PATH \
       -DWITH_EXCEPTIONS=ON \
       -DBUILD_TESTS=OFF \
       -DBUILD_TOOLS=OFF \
@@ -49,8 +50,8 @@ RUN git clone --depth 1 --branch ${LLVM_TAG} https://github.com/llvm/llvm-projec
       "-DLLVM_ENABLE_RUNTIMES=compiler-rt" \
       "-DLLVM_TARGETS_TO_BUILD=WebAssembly;X86;AArch64;ARM;Hexagon;NVPTX;PowerPC;RISCV" \
       -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_C_COMPILER=$TARGET_CC \
-      -DCMAKE_CXX_COMPILER=$TARGET_CXX \
+      -DCMAKE_INSTALL_PREFIX=/usr/local/$CARGO_BUILD_TARGET \
+      -DCMAKE_TOOLCHAIN_FILE=$TARGET_CMAKE_TOOLCHAIN_FILE_PATH \
       -DLLVM_BUILD_32_BITS=OFF \
       -DLLVM_ENABLE_ASSERTIONS=ON \
       -DLLVM_ENABLE_BINDINGS=OFF \
