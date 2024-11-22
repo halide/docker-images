@@ -29,7 +29,7 @@ jobs:
         version:
           # - { major: 17, full: 17.0.6 }
           # - { major: 18, full: 18.1.8 }
-          - { major: 19, full: 19.1.0 }
+          - { major: 19, full: 19.1.4 }
     steps:
       - uses: actions/checkout@v4
 
