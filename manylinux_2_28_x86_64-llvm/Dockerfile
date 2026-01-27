@@ -19,7 +19,7 @@ RUN git clone --depth 1 --branch v${FB_VERSION} https://github.com/google/flatbu
 
 ## Install flatbuffers
 FROM base AS wabt
-ARG WABT_VERSION=1.0.36
+ARG WABT_VERSION=1.0.39
 RUN git clone --depth 1 --branch ${WABT_VERSION} https://github.com/WebAssembly/wabt.git && \
     git -C wabt submodule update --init third_party/picosha2 && \
     cmake -G Ninja -S wabt -B build \
@@ -36,7 +36,7 @@ RUN git clone --depth 1 --branch ${WABT_VERSION} https://github.com/WebAssembly/
 
 # Install LLVM
 FROM base AS llvm
-ARG LLVM_VERSION=18.1.8
+ARG LLVM_VERSION=21.1.8
 RUN git clone --depth 1 --branch llvmorg-${LLVM_VERSION} https://github.com/llvm/llvm-project.git && \
     cmake -G Ninja -S llvm-project/llvm -B build \
       "-DLLVM_ENABLE_PROJECTS=clang;lld" \
